@@ -1,0 +1,246 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="2.0" xmlns:edmx="http://schemas.microsoft.com/ado/2008/10/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="MyNotesReadModelModel.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2000" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/02/edm/ssdl">
+        <EntityContainer Name="MyNotesReadModelModelStoreContainer">
+          <EntitySet Name="Item" EntityType="MyNotesReadModelModel.Store.Item" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="ItemStock" EntityType="MyNotesReadModelModel.Store.ItemStock" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="picklist" EntityType="MyNotesReadModelModel.Store.picklist" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="pickListItem" EntityType="MyNotesReadModelModel.Store.pickListItem" store:Type="Tables" Schema="dbo" />
+          <AssociationSet Name="FK__ItemStock__Item__3671F678" Association="MyNotesReadModelModel.Store.FK__ItemStock__Item__3671F678">
+            <End Role="Item" EntitySet="Item" />
+            <End Role="ItemStock" EntitySet="ItemStock" />
+          </AssociationSet>
+          <AssociationSet Name="FK__pickListI__pickL__2A0C1F93" Association="MyNotesReadModelModel.Store.FK__pickListI__pickL__2A0C1F93">
+            <End Role="picklist" EntitySet="picklist" />
+            <End Role="pickListItem" EntitySet="pickListItem" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="Item">
+          <Key>
+            <PropertyRef Name="Item" />
+          </Key>
+          <Property Name="Item" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="Name" Type="varchar" MaxLength="50" />
+          <Property Name="Qty" Type="int" />
+          <Property Name="Price" Type="decimal" />
+        </EntityType>
+        <EntityType Name="ItemStock">
+          <Key>
+            <PropertyRef Name="ItemStockId" />
+          </Key>
+          <Property Name="ItemStockId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="Item" Type="uniqueidentifier" />
+          <Property Name="Qty" Type="int" />
+          <Property Name="RefId" Type="uniqueidentifier" />
+        </EntityType>
+        <EntityType Name="picklist">
+          <Key>
+            <PropertyRef Name="PickListId" />
+          </Key>
+          <Property Name="PickListId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="Number" Type="int" />
+          <Property Name="Customer" Type="varchar" MaxLength="100" />
+        </EntityType>
+        <EntityType Name="pickListItem">
+          <Key>
+            <PropertyRef Name="PickListItemId" />
+          </Key>
+          <Property Name="PickListItemId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="pickListId" Type="uniqueidentifier" />
+          <Property Name="Item" Type="uniqueidentifier" />
+          <Property Name="Qty" Type="int" />
+          <Property Name="Price" Type="decimal" />
+        </EntityType>
+        <Association Name="FK__ItemStock__Item__3671F678">
+          <End Role="Item" Type="MyNotesReadModelModel.Store.Item" Multiplicity="0..1" />
+          <End Role="ItemStock" Type="MyNotesReadModelModel.Store.ItemStock" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Item">
+              <PropertyRef Name="Item" />
+            </Principal>
+            <Dependent Role="ItemStock">
+              <PropertyRef Name="Item" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__pickListI__pickL__2A0C1F93">
+          <End Role="picklist" Type="MyNotesReadModelModel.Store.picklist" Multiplicity="0..1" />
+          <End Role="pickListItem" Type="MyNotesReadModelModel.Store.pickListItem" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="picklist">
+              <PropertyRef Name="PickListId" />
+            </Principal>
+            <Dependent Role="pickListItem">
+              <PropertyRef Name="pickListId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="MyNotesReadModelModel" Alias="Self" xmlns="http://schemas.microsoft.com/ado/2008/09/edm">
+        <EntityContainer Name="MyNotesReadModelEntities" annotation:LazyLoadingEnabled="true" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation">
+          <EntitySet Name="Items" EntityType="MyNotesReadModelModel.Item" />
+          <EntitySet Name="ItemStocks" EntityType="MyNotesReadModelModel.ItemStock" />
+          <EntitySet Name="picklists" EntityType="MyNotesReadModelModel.picklist" />
+          <EntitySet Name="pickListItems" EntityType="MyNotesReadModelModel.pickListItem" />
+          <AssociationSet Name="FK__ItemStock__Item__2ED0D4B0" Association="MyNotesReadModelModel.FK__ItemStock__Item__2ED0D4B0">
+            <End Role="Item" EntitySet="Items" />
+            <End Role="ItemStock" EntitySet="ItemStocks" />
+          </AssociationSet>
+          <AssociationSet Name="FK__pickListI__pickL__2A0C1F93" Association="MyNotesReadModelModel.FK__pickListI__pickL__2A0C1F93">
+            <End Role="picklist" EntitySet="picklists" />
+            <End Role="pickListItem" EntitySet="pickListItems" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="Item">
+          <Key>
+            <PropertyRef Name="Item1" />
+          </Key>
+          <Property Type="Guid" Name="Item1" Nullable="false" />
+          <Property Type="String" Name="Name" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Type="Int32" Name="Qty" />
+          <Property Type="Decimal" Name="Price" Precision="18" Scale="0" />
+          <NavigationProperty Name="ItemStocks" Relationship="MyNotesReadModelModel.FK__ItemStock__Item__2ED0D4B0" FromRole="Item" ToRole="ItemStock" />
+        </EntityType>
+        <EntityType Name="ItemStock">
+          <Key>
+            <PropertyRef Name="ItemStockId" />
+          </Key>
+          <Property Type="Guid" Name="ItemStockId" Nullable="false" />
+          <Property Type="Guid" Name="Item" />
+          <Property Type="Int32" Name="Qty" />
+          <NavigationProperty Name="Item1" Relationship="MyNotesReadModelModel.FK__ItemStock__Item__2ED0D4B0" FromRole="ItemStock" ToRole="Item" />
+          <Property Type="Guid" Name="RefId" />
+        </EntityType>
+        <EntityType Name="picklist">
+          <Key>
+            <PropertyRef Name="PickListId" />
+          </Key>
+          <Property Type="Guid" Name="PickListId" Nullable="false" />
+          <Property Type="Int32" Name="Number" />
+          <Property Type="String" Name="Customer" MaxLength="100" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="pickListItems" Relationship="MyNotesReadModelModel.FK__pickListI__pickL__2A0C1F93" FromRole="picklist" ToRole="pickListItem" />
+        </EntityType>
+        <EntityType Name="pickListItem">
+          <Key>
+            <PropertyRef Name="PickListItemId" />
+          </Key>
+          <Property Type="Guid" Name="PickListItemId" Nullable="false" />
+          <Property Type="Guid" Name="pickListId" />
+          <Property Type="Guid" Name="Item" />
+          <Property Type="Int32" Name="Qty" />
+          <Property Type="Decimal" Name="Price" Precision="18" Scale="0" />
+          <NavigationProperty Name="picklist" Relationship="MyNotesReadModelModel.FK__pickListI__pickL__2A0C1F93" FromRole="pickListItem" ToRole="picklist" />
+        </EntityType>
+        <Association Name="FK__ItemStock__Item__2ED0D4B0">
+          <End Type="MyNotesReadModelModel.Item" Role="Item" Multiplicity="0..1" />
+          <End Type="MyNotesReadModelModel.ItemStock" Role="ItemStock" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Item">
+              <PropertyRef Name="Item1" />
+            </Principal>
+            <Dependent Role="ItemStock">
+              <PropertyRef Name="Item" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__pickListI__pickL__2A0C1F93">
+          <End Type="MyNotesReadModelModel.picklist" Role="picklist" Multiplicity="0..1" />
+          <End Type="MyNotesReadModelModel.pickListItem" Role="pickListItem" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="picklist">
+              <PropertyRef Name="PickListId" />
+            </Principal>
+            <Dependent Role="pickListItem">
+              <PropertyRef Name="pickListId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2008/09/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="MyNotesReadModelModelStoreContainer" CdmEntityContainer="MyNotesReadModelEntities">
+          <EntitySetMapping Name="Items">
+            <EntityTypeMapping TypeName="MyNotesReadModelModel.Item">
+              <MappingFragment StoreEntitySet="Item">
+                <ScalarProperty Name="Price" ColumnName="Price" />
+                <ScalarProperty Name="Qty" ColumnName="Qty" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Item1" ColumnName="Item" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ItemStocks">
+            <EntityTypeMapping TypeName="MyNotesReadModelModel.ItemStock">
+              <MappingFragment StoreEntitySet="ItemStock">
+                <ScalarProperty Name="RefId" ColumnName="RefId" />
+                <ScalarProperty Name="Qty" ColumnName="Qty" />
+                <ScalarProperty Name="Item" ColumnName="Item" />
+                <ScalarProperty Name="ItemStockId" ColumnName="ItemStockId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="picklists">
+            <EntityTypeMapping TypeName="MyNotesReadModelModel.picklist">
+              <MappingFragment StoreEntitySet="picklist">
+                <ScalarProperty Name="Customer" ColumnName="Customer" />
+                <ScalarProperty Name="Number" ColumnName="Number" />
+                <ScalarProperty Name="PickListId" ColumnName="PickListId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="pickListItems">
+            <EntityTypeMapping TypeName="MyNotesReadModelModel.pickListItem">
+              <MappingFragment StoreEntitySet="pickListItem">
+                <ScalarProperty Name="Price" ColumnName="Price" />
+                <ScalarProperty Name="Qty" ColumnName="Qty" />
+                <ScalarProperty Name="Item" ColumnName="Item" />
+                <ScalarProperty Name="pickListId" ColumnName="pickListId" />
+                <ScalarProperty Name="PickListItemId" ColumnName="PickListItemId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2008/10/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="True" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="True" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams>
+      <Diagram Name="ReadModel1" ZoomLevel="52">
+        <EntityTypeShape EntityType="MyNotesReadModelModel.Item" Width="1.5" PointX="0.75" PointY="4.875" Height="1.9802864583333246" />
+        <EntityTypeShape EntityType="MyNotesReadModelModel.ItemStock" Width="1.5" PointX="3" PointY="5" Height="1.7879850260416674" />
+        <EntityTypeShape EntityType="MyNotesReadModelModel.picklist" Width="1.5" PointX="0.75" PointY="1.125" Height="1.7879850260416674" />
+        <EntityTypeShape EntityType="MyNotesReadModelModel.pickListItem" Width="1.5" PointX="3" PointY="0.875" Height="2.172587890624996" />
+        <AssociationConnector Association="MyNotesReadModelModel.FK__ItemStock__Item__2ED0D4B0" >
+          <ConnectorPoint PointX="2.25" PointY="5.8939925130208337" />
+          <ConnectorPoint PointX="3" PointY="5.8939925130208337" />
+        </AssociationConnector>
+        <AssociationConnector Association="MyNotesReadModelModel.FK__pickListI__pickL__2A0C1F93" >
+          <ConnectorPoint PointX="2.25" PointY="2.0189925130208337" />
+          <ConnectorPoint PointX="3" PointY="2.0189925130208337" />
+        </AssociationConnector>
+      </Diagram>
+    </Diagrams>
+  </Designer>
+</edmx:Edmx>

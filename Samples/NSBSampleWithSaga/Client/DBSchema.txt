@@ -1,0 +1,19 @@
+﻿create table dbo.picklist(PickListId uniqueidentifier primary key,
+Number int, Customer  varchar(100))
+go
+create table dbo.pickListItem(PickListItemId uniqueidentifier primary key, 
+pickListId uniqueidentifier references picklist,
+Item uniqueidentifier ,
+Qty int,
+Price decimal)
+go
+create table dbo.Item(Item uniqueidentifier primary key,
+Name varchar(50),
+Qty int,
+Price decimal)
+go
+create table dbo.ItemStock(ItemStockId uniqueidentifier primary key,
+Item uniqueidentifier references item,
+Qty int)
+
+
