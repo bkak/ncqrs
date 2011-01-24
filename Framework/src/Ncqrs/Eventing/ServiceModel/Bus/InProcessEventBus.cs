@@ -119,6 +119,14 @@ namespace Ncqrs.Eventing.ServiceModel.Bus
             Action<IEvent> act = (evnt) => handler.Handle((TEvent)evnt);
             RegisterHandler(eventDataType, act);
         }
+        
+        public void RegisterConversationHandler<TEvent>(IConversationHandler<TEvent> handler) where TEvent : IEvent
+        {
+            var eventDataType = typeof(TEvent);
+
+            Action<IEvent> act = (evnt) => handler.Handle((TEvent)evnt);
+            RegisterHandler(eventDataType, act);
+        }
 
         public void RegisterHandler(Type eventDataType, Action<IEvent> handler)
         {
@@ -131,5 +139,6 @@ namespace Ncqrs.Eventing.ServiceModel.Bus
 
             handlers.Add(handler);
         }
+
     }
 }

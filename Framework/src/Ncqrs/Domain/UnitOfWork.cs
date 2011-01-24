@@ -1,3 +1,4 @@
+﻿
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics.Contracts;
@@ -191,7 +192,7 @@ namespace Ncqrs.Domain
         /// Registers the dirty.
         /// </summary>
         /// <param name="dirtyInstance">The dirty instance.</param>
-        private void RegisterDirtyInstance(AggregateRoot dirtyInstance)
+        public void RegisterDirtyInstance(AggregateRoot dirtyInstance)
         {
             Contract.Requires<ArgumentNullException>(dirtyInstance != null, "dirtyInstance could not be null.");
 
