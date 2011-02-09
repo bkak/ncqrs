@@ -17,5 +17,23 @@ namespace Ncqrs.Commanding
         { 
             get;
         }
+        /// <summary>
+        /// Gets the Composite Command Identifier for this command.
+        /// </summary>
+        [ExcludeInMapping]
+        Guid CompositeCommandIdentifier
+        {
+            get;
+        }
+        /// <summary>
+        /// Gets the unique sequence no for this command.
+        /// </summary>
+        [ExcludeInMapping]
+        Int16 SequenceNo
+        {
+            get;
+        }
+        void SetCompositeCommandIdentifier(Guid compositeCommandIdentifier);
+        void SetSequenceNo(short sequenceNo);
     }
 }

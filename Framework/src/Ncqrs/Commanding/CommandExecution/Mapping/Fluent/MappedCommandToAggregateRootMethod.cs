@@ -25,12 +25,14 @@ namespace Ncqrs.Commanding.CommandExecution.Mapping.Fluent
             _getidfromcommandfunc = getidfromcommandfunc;
 
             // default get aggregateroot code
-            var factory = NcqrsEnvironment.Get<IUnitOfWorkFactory>();
-            using (var work = factory.CreateUnitOfWork())
-            {
-                _aggregaterootfetchfunc = (guid) => work.GetById<TAggRoot>(guid);
-                work.Accept();
-            }
+            //var factory = NcqrsEnvironment.Get<IUnitOfWorkFactory>();
+            //using (var work = factory.CreateUnitOfWork())
+            //{
+            var work = NcqrsEnvironment.GetFromWindsor<IUnitOfWorkContext>();
+            
+            _aggregaterootfetchfunc = (guid) => work.GetById<TAggRoot>(guid);
+               // work.Accept();
+            //}
         }
 
         /// <summary>
@@ -39,7 +41,7 @@ namespace Ncqrs.Commanding.CommandExecution.Mapping.Fluent
         /// <param name="getidfromcommandfunc">The method responsible for retrieving the id of the aggregateroot from the command.</param>
         /// <param name="aggregaterootfetchfunc">The method responsible for retrieving the aggregateroot of type <typeparamref name="TAggRoot"/> from a <see cref="Guid"/>.</param>
         /// <remarks>Marked as internal because the construction is only allowed in the framework.</remarks>
-        internal MappedCommandToAggregateRootMethod(Func<Guid, TAggRoot> aggregaterootfetchfunc, Func<TCommand, Guid> getidfromcommandfunc) 
+        internal MappedCommandToAggregateRootMethod(Func<Guid, TAggRoot> aggregaterootfetchfunc, Func<TCommand, Guid> getidfromcommandfunc)
             : this(getidfromcommandfunc)
         {
             _aggregaterootfetchfunc = aggregaterootfetchfunc;
@@ -66,14 +68,17 @@ namespace Ncqrs.Commanding.CommandExecution.Mapping.Fluent
         /// <returns>The aggregateroot of type <typeparamref name="TAggRoot"/> on which we executed the command.</returns>
         void ICommandExecutor<TCommand>.Execute(TCommand command)
         {
-            var factory = NcqrsEnvironment.Get<IUnitOfWorkFactory>();
-            using (var work = factory.CreateUnitOfWork())
-            {
-                var aggregateroot = _aggregaterootfetchfunc(_getidfromcommandfunc(command));
-                _mappedmethodforcommandfunc(command, aggregateroot);
+            //var factory = NcqrsEnvironment.Get<IUnitOfWorkFactory>();
+            //using (var work = factory.CreateUnitOfWork())
+            //{
+            //    var aggregateroot = _aggregaterootfetchfunc(_getidfromcommandfunc(command));
+            //    _mappedmethodforcommandfunc(command, aggregateroot);
 
-                work.Accept();
-            }
+            //    work.Accept();
+            //}
+
+            var aggregateroot = _aggregaterootfetchfunc(_getidfromcommandfunc(command));
+            _mappedmethodforcommandfunc(command, aggregateroot);
         }
 
         [ContractInvariantMethod]

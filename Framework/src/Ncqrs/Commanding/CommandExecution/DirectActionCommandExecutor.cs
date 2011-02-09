@@ -31,14 +31,18 @@ namespace Ncqrs.Commanding.CommandExecution
 
         public void Execute(TCommand command)
         {
-            using (var work = _uowFactory.CreateUnitOfWork())
-            {
-                var id = _getId(command);
-                var aggRoot = work.GetById<TAggregateRoot>(id);
+            //using (var work = _uowFactory.CreateUnitOfWork())
+            //{
+            //    var id = _getId(command);
+            //    var aggRoot = work.GetById<TAggregateRoot>(id);
 
-                _action(aggRoot, command);
-                work.Accept();
-            }
+            //    _action(aggRoot, command);
+            //    work.Accept();
+            //}
+            var id = _getId(command);
+            var work = NcqrsEnvironment.GetFromWindsor<IUnitOfWorkContext>();
+            var aggRoot = work.GetById<TAggregateRoot>(id);
+            _action(aggRoot, command);
         }
     }
 }

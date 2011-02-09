@@ -48,5 +48,6 @@ namespace Ncqrs.Domain
         /// that has been occured will be stored and published.
         /// </summary>
         void Accept();
+        
     }
 }

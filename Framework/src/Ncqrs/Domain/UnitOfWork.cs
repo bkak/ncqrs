@@ -2,7 +2,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics.Contracts;
-using Ncqrs.Domain.Storage;
+﻿using System.Linq;
+﻿using Ncqrs.Domain.Storage;
 using Ncqrs.Eventing.Sourcing;
 
 namespace Ncqrs.Domain
@@ -17,7 +18,7 @@ namespace Ncqrs.Domain
         /// <summary>
         /// A queue that holds a reference to all instances that have themself registered as a dirty instance during the lifespan of this unit of work instance.
         /// </summary>
-        private readonly Queue<AggregateRoot> _dirtyInstances;
+        private readonly List<AggregateRoot> _dirtyInstances;
 
         private readonly Action<AggregateRoot, ISourcedEvent> _eventAppliedCallback;
 
@@ -25,6 +26,11 @@ namespace Ncqrs.Domain
         /// A reference to the repository that is associated with this instance.
         /// </summary>
         private readonly IDomainRepository _repository;
+        
+        /// <summary>
+        /// A queue that holds a reference to all instances that have themself registered as a dirty instance during the lifespan of this unit of work instance.
+        /// </summary>
+        private readonly Dictionary<Guid, AggregateRoot> _dirtyInstance_With_CompositeCommandId;
 
         /// <summary>
         /// Gets the <see cref="UnitOfWork"/> associated with the current thread context.
@@ -76,11 +82,12 @@ namespace Ncqrs.Domain
             Contract.Ensures(IsDisposed == false);
 
             _repository = domainRepository;
-            _dirtyInstances = new Queue<AggregateRoot>();
+            _dirtyInstances = new List<AggregateRoot>();
             _threadInstance = this;
             _eventAppliedCallback = new Action<AggregateRoot, ISourcedEvent>(AggregateRootEventAppliedHandler);
             IsDisposed = false;
-
+            //Added by BizOs
+            _dirtyInstance_With_CompositeCommandId= new Dictionary<Guid, AggregateRoot>();
             InitializeAppliedEventHandler();
         }
 
@@ -157,9 +164,11 @@ namespace Ncqrs.Domain
         /// specified event source id could not be found.</exception>
         public TAggregateRoot GetById<TAggregateRoot>(Guid eventSourceId) where TAggregateRoot : AggregateRoot
         {
-            return _repository.GetById<TAggregateRoot>(eventSourceId);
+            return GetFromDirtyInstance(eventSourceId) as TAggregateRoot;
+            //return _repository.GetById<TAggregateRoot>(eventSourceId);
         }
 
+      
         /// <summary>
         /// Gets aggregate root by <see cref="AggregateRoot.EventSourcId">event source id</see>.
         /// </summary>
@@ -198,7 +207,7 @@ namespace Ncqrs.Domain
 
             if (!_dirtyInstances.Contains(dirtyInstance))
             {
-                _dirtyInstances.Enqueue(dirtyInstance);
+                 _dirtyInstances.Add(dirtyInstance);
             }
         }
 
@@ -208,14 +217,26 @@ namespace Ncqrs.Domain
         public void Accept()
         {
             Contract.Requires<ObjectDisposedException>(!IsDisposed);
-
-            while (_dirtyInstances.Count > 0)
+            var enumDirtyInstances = _dirtyInstances.GetEnumerator();
+            while (enumDirtyInstances.MoveNext())
             {
-                var dirtyInstance = _dirtyInstances.Dequeue();
+                var dirtyInstance = enumDirtyInstances.Current;
 
                 Contract.Assume(dirtyInstance != null);
                 _repository.Save(dirtyInstance);
             }
        }
+        
+        private AggregateRoot GetFromDirtyInstance(Guid eventSourceId)
+        {
+            var dirtyInstance = _dirtyInstances.SingleOrDefault(x => x.EventSourceId == eventSourceId);
+            if (dirtyInstance != null)
+                return dirtyInstance;
+            else
+            {
+                var aggRoot = _repository.GetById<AggregateRoot>(eventSourceId);
+                return aggRoot;
+            }
+        }
     }
 }

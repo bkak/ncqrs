@@ -73,7 +73,7 @@ namespace Ncqrs.Commanding.CommandExecution.Mapping.Fluent
 
             var mappedmethod = new MappedCommandToAggregateRootMethod<TCommand, TAggRoot>(getaggregaterootfunc, getidfromcommandfunc);
             _mappedaggregaterootmethod = mappedmethod;
-            
+
             return mappedmethod;
         }
 
@@ -83,7 +83,7 @@ namespace Ncqrs.Commanding.CommandExecution.Mapping.Fluent
         /// </summary>
         /// <param name="aggregaterootcreatorfunc">The method responsible for creating the aggregateroot of type <typeparamref name="TAggRoot"/>.</param>
         /// <returns>A <see cref="MappedCommandToAggregateRootConstructor&lt;Command, TAggRoot&gt;"/>.</returns>
-        public MappedCommandToAggregateRootConstructor<TCommand, TAggRoot> CreateNew(Func<TCommand, TAggRoot> aggregaterootcreatorfunc)
+        public MappedCommandToAggregateRootConstructor<TCommand, TAggRoot> CreateNew(Func<TCommand,  TAggRoot> aggregaterootcreatorfunc)
         {
             Contract.Requires<ArgumentNullException>(aggregaterootcreatorfunc != null, "aggregaterootcreatorfunc can not be null.");
 

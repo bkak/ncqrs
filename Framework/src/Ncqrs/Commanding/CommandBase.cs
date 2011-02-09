@@ -64,6 +64,7 @@ namespace Ncqrs.Commanding
             Contract.Requires<ArgumentNullException>(idGenerator != null);
 
             CommandIdentifier = idGenerator.GenerateNewId();
+            CompositeCommandIdentifier = Guid.Empty;
         }
 
         /// <summary>
@@ -79,6 +80,24 @@ namespace Ncqrs.Commanding
                 throw new InvalidOperationException("No Ncqrs.Commanding.IKnownCommandsEnumerator implementation registered with the NcqrsEnvironment.");
             }
             return knownCommandsEnumerator.GetAllCommandTypes();
+        }
+        public void SetCompositeCommandIdentifier(Guid compositeCommandIdentifier)
+        {
+            CompositeCommandIdentifier = compositeCommandIdentifier;
+        }
+        public void SetSequenceNo(short sequenceNo)
+        {
+            SequenceNo = sequenceNo;
+        }
+        public Guid CompositeCommandIdentifier
+        {
+            get;
+            private set;
+        }
+        public short SequenceNo
+        {
+            get;
+            private set;
         }
     }
 }

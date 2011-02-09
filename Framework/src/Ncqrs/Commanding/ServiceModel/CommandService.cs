@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics.Contracts;
 using System.Reflection;
 using Ncqrs.Commanding.CommandExecution;
+using Ncqrs.Domain;
 
 namespace Ncqrs.Commanding.ServiceModel
 {
@@ -138,6 +139,18 @@ namespace Ncqrs.Commanding.ServiceModel
         public virtual void RemoveInterceptor(ICommandServiceInterceptor interceptor)
         {
             _interceptors.Remove(interceptor);
+        }
+        public void Execute(CompositeCommanding.ICompositeCommand compositeCommand)
+        {
+            Contract.Requires<ArgumentNullException>(compositeCommand != null, "Composite Command is null");
+            Contract.Requires<ArgumentNullException>(compositeCommand.Commands != null, "Composite Command should have atleast one command");
+            var unitOfWork = NcqrsEnvironment.GetFromWindsor<IUnitOfWorkContext>();
+            foreach (var command in compositeCommand.Commands)
+            {
+                Execute(command);
+            }
+            unitOfWork.Accept();
+            unitOfWork.Dispose();
         }
     }
 }

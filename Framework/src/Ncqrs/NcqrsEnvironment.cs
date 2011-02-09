@@ -14,7 +14,7 @@ namespace Ncqrs
     /// <remarks>
     /// Make sure to call the <see cref="Configure"/> method before doing anything else with this class.
     /// </remarks></summary>
-    public static class NcqrsEnvironment
+    public static partial class NcqrsEnvironment
     {
         private static readonly ILog Log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
 

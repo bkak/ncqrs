@@ -44,16 +44,19 @@ namespace Ncqrs.Commanding.CommandExecution.Mapping.Fluent
         /// <param name="command">The command to execute.</param>
         void ICommandExecutor<TCommand>.Execute(TCommand command)
         {
-            var factory = NcqrsEnvironment.Get<IUnitOfWorkFactory>();
-            using (var work = factory.CreateUnitOfWork())
-            {
-                var aggregateroot = _aggregaterootcreatorfunc(command);
+            //var factory = NcqrsEnvironment.Get<IUnitOfWorkFactory>();
+            //using (var work = factory.CreateUnitOfWork())
+            //{
+            //    var aggregateroot = _aggregaterootcreatorfunc(command);
 
-                if (_storeaggregaterootinfunc != null)
-                    _storeaggregaterootinfunc(command, aggregateroot);
+            //    if (_storeaggregaterootinfunc != null)
+            //        _storeaggregaterootinfunc(command, aggregateroot);
 
-                work.Accept();
-            }
+            //    work.Accept();
+            //}
+            var aggregateroot = _aggregaterootcreatorfunc(command);
+            if (_storeaggregaterootinfunc != null)
+                _storeaggregaterootinfunc(command, aggregateroot);
         }
     }
 }

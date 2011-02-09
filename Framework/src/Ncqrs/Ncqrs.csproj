@@ -79,14 +79,40 @@
     <CodeContractsReferenceAssembly>%28none%29</CodeContractsReferenceAssembly>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Castle.ActiveRecord">
+      <HintPath>..\..\..\lib\ThirdParty\Castle.ActiveRecord.dll</HintPath>
+    </Reference>
+    <Reference Include="Castle.Components.Validator">
+      <HintPath>..\..\..\lib\ThirdParty\Castle.Components.Validator.dll</HintPath>
+    </Reference>
+    <Reference Include="Castle.Core">
+      <HintPath>..\..\..\lib\ThirdParty\Castle.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="Castle.DynamicProxy2">
+      <HintPath>..\..\..\lib\ThirdParty\Castle.DynamicProxy2.dll</HintPath>
+    </Reference>
+    <Reference Include="Castle.MicroKernel">
+      <HintPath>..\..\..\lib\ThirdParty\Castle.MicroKernel.dll</HintPath>
+    </Reference>
+    <Reference Include="Castle.Model">
+      <HintPath>..\..\..\lib\ThirdParty\Castle.Model.dll</HintPath>
+    </Reference>
+    <Reference Include="Castle.Windsor">
+      <HintPath>..\..\..\lib\ThirdParty\Castle.Windsor.dll</HintPath>
+    </Reference>
+    <Reference Include="CommonServiceLocator.WindsorAdapter">
+      <HintPath>..\..\..\lib\ThirdParty\CommonServiceLocator.WindsorAdapter.dll</HintPath>
+    </Reference>
     <Reference Include="log4net">
       <HintPath>..\..\..\lib\ThirdParty\log4net\log4net.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="Newtonsoft.Json">
-      <HintPath>..\..\..\lib\ThirdParty\json.net\Newtonsoft.Json.dll</HintPath>
-      <Private>False</Private>
+      <HintPath>..\..\..\lib\ThirdParty\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="Rhino.Commons">
+      <HintPath>..\..\..\lib\ThirdParty\Rhino.Commons.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.configuration" />
@@ -98,6 +124,8 @@
   <ItemGroup>
     <Compile Include="Commanding\AllCommandsInAppDomainEnumerator.cs" />
     <Compile Include="Commanding\IKnownCommandsEnumerator.cs" />
+    <Compile Include="CompositeCommanding\CompositeCommandBase.cs" />
+    <Compile Include="CompositeCommanding\ICompositeCommand.cs" />
     <Compile Include="Domain\Entity.cs" />
     <Compile Include="Domain\EntityMappedByConvention.cs" />
     <Compile Include="Domain\Storage\IAggregateRootCreationStrategy.cs" />
@@ -230,7 +258,9 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TraceLogger.cs" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Compile Include="CompositeCommanding\NcqrsEnvironment.cs" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <ProjectExtensions>
     <VisualStudio>
