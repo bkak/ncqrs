@@ -1,29 +1,10 @@
-MY NOTES SAMPLE APPLICATION
+MY NOTES Conversation Handlers
 ===========================
 
-This sample application contains the basic componetents of an Ncqrs bases 
-application. It is build with ASP.NET MVC2 and the Ncqrs Framework.
+This is a demonstration of opinionated multiple Aggregate communication in CQRS.
+ConversationHandlers are created just like EventHandlers, they also subscribe to the Event raised by Domain.
+Then in Conversation Handler we can write code that we need to converse between 2 AR's.
+This can also be called as a simple stateless saga. It does not use NSB simple InProcessEventBus is used.
+In this application Summary AR for Notes is created.
+But can be used to Create or Update follow-up Aggregates.
 
-GETTING IT UP AND RUNNING
--------------------------
-
-Follow these steps to get the website running.
-
-0. Run BUILD.bat in the root folder (two up).
-1. Open MyNotes.sln with Visual Studio 2010.
-2. Run MyNotesEventStore.sql to create the event store database.
-3. Run MyNotesReadModel.sql to create the read model database.
-4. If needed (this step is not needed when you run the default SQL express), 
-   update ReadModelContainer connection string in 
-	- CommandService\Web.config
-	- ReadModel\App.config
-	- Website\Web.config
-5. Set Website as default startup project.
-6. Hit F5 and have fun!
-
-CONTACT
--------
-
-If you have any questions or feedback, contact me via:
-	- Twitter: <http://twitter.com/ncqrs>
-	- Mail: ncqrs-dev@googlegroups.com
